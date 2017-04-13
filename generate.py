@@ -1,8 +1,25 @@
+import sys
+import os
 from configparser import ConfigParser, ExtendedInterpolation
 
+if len(sys.argv) == 1:
+    print "Usage: ./" + sys.argv[0] + " [host.cfg] [out.htaccess]"
+    sys.exit()
+
+filename = ".htaccess"
+if len(sys.argv) > 2:
+    filename = sys.argv[2]
+
 parser = ConfigParser(interpolation=ExtendedInterpolation())
+print "Generating " + filename + " from template.cfg"
 parser.read('template.cfg')
-parser.read('pub1.cfg')
+
+if len(sys.argv) > 1:
+    if os.path.isfile(sys.argv[1] + ".cfg"):
+        print "Applying config values from: " + sys.argv[1] + ".cfg to " + filename
+        parser.read(sys.argv[1] + ".cfg")
+    else:
+        print "Couldn't find " + sys.argv[1] + ".cfg" + " config file"
 
 
 def use_bots_selected(section):
@@ -53,17 +70,17 @@ def error_doc():
         writeline("ErrorDocument 404 " + mgihome_url + "/other/Error404.shtml")
         writeline("")
 
-def generate_bots(use_bots, url, path):
+def generate_bots(use_bots, url, match, path):
     if use_bots and parser.has_option("options", "bots"):
         writeline("")
         bots = parser.get("options", "bots").split(",")
         for bot in bots:
             writeline("RewriteCond %{HTTP_USER_AGENT} \"" + bot + "\"\t\t\t[NC,OR]")
 
-        writeline("RewriteRule ^" + path + "(.*)\t\t" + url + "/" + path + "/$1 [P,L]")
+        writeline("RewriteRule ^" + match + "(.*)\t\t" + url + "/" + path + "/$1 [P,L]")
         writeline("RewriteCond %{HTTP_REFERER} =\"-\"")
         writeline("RewriteCond %{HTTP_USER_AGENT} =\"-\"")
-        writeline("RewriteRule ^" + path + "(.*)\t\t" + url + "/" + path + "/$1 [P,L]")
+        writeline("RewriteRule ^" + match + "(.*)\t\t" + url + "/" + path + "/$1 [P,L]")
 
 def mgi_homeurls():
     if parser.has_option("mgi_home_urls", "paths"):
@@ -88,9 +105,16 @@ def fewi_urls():
         fewi_url = parser.get("urls", "fewi_url")
         fewi_bot_url = parser.get("urls", "fewi_bot_url")
         for path in parser.get("fewi_urls", "paths").split(","):
-            generate_bots(use_bots_selected("fewi_urls"), fewi_bot_url, path)
+            generate_bots(use_bots_selected("fewi_urls"), fewi_bot_url, path, path)
             writeline("RewriteRule ^" + path + "(.*)\t\t" + fewi_url + "/" + path + "/$1 [P,L]")
         writeline("")
+
+def searchtool_urls():
+    path = parser.get("searchtool", "path")
+    url = parser.get("urls", "search_tool_url")
+    search_tool_bot_url = parser.get("urls", "search_tool_bot_url")
+    generate_bots(use_bots_selected("searchtool"), search_tool_bot_url, "searchtool", path)
+    writeline("RewriteRule ^searchtool(.*)\t\t" + url + "/" + path + "/$1 [P,L]")
 
 def custom_urls():
     writeline("# --- Custom rules not defined anywhere else")
@@ -102,10 +126,11 @@ def custom_urls():
             writeline("RewriteRule " + sec + "\t\t" + url + " [P,L]")
             writeline("")
 
-out = open(".htaccess", 'w')
+out = open(filename, 'w')
 header()
 mgi_homeurls()
 menu_urls()
 fewi_urls()
+searchtool_urls()
 custom_urls()
 out.close()
