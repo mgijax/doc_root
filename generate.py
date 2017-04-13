@@ -123,7 +123,10 @@ def custom_urls():
             if parser.has_option(sec, "comment"):
                 writeline("# " + parser.get(sec, "comment"))
             url = parser.get(sec, "path")
-            writeline("RewriteRule " + sec + "\t\t" + url + " [P,L]")
+            if parser.has_option(sec, "flags"):
+                writeline("RewriteRule " + sec + "\t\t" + url + " " + parser.get(sec, "flags"))
+            else:
+                writeline("RewriteRule " + sec + "\t\t" + url + " [P,L]")
             writeline("")
 
 out = open(filename, 'w')
