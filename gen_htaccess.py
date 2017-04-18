@@ -1,4 +1,5 @@
 import sys
+import ast
 import os
 from configparser import ConfigParser, ExtendedInterpolation
 
@@ -123,6 +124,13 @@ def custom_urls():
             if parser.has_option(sec, "comment"):
                 writeline("# " + parser.get(sec, "comment"))
             url = parser.get(sec, "path")
+            
+            if parser.has_option(sec, "conditions"):
+                conditions = parser.get(sec, "conditions")
+                conditions = ast.literal_eval(conditions)
+                for key in conditions:
+                   writeline("RewriteCond " + key + "\t\t" + conditions[key] + "\t\t[NC]")
+
             if parser.has_option(sec, "flags"):
                 writeline("RewriteRule " + sec + "\t\t" + url + " " + parser.get(sec, "flags"))
             else:
