@@ -59,7 +59,7 @@ gen_htaccess takes two paramaters.
 - Output file (Optional): If this option is specified then the output of the script will be placed into a file with this name overriding any existing file by the same name. If this option is not present, then the output will be placed into a file called .htaccess.
 
 ```
->python gen_htaccess.py pub1
+>./gen_htaccess.py pub1
 Generating .htaccess from template.cfg
 Applying config values from: pub1.cfg to .htaccess
 >
