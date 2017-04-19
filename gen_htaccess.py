@@ -1,10 +1,12 @@
+#!virtenv/bin/python
+
 import sys
 import ast
 import os
 from configparser import ConfigParser, ExtendedInterpolation
 
 if len(sys.argv) == 1:
-    print "Usage: ./" + sys.argv[0] + " [host.cfg] [out.htaccess]"
+    print "Usage: " + sys.argv[0] + " [host.cfg] [out.htaccess]"
     sys.exit()
 
 filename = ".htaccess"

@@ -1,5 +1,11 @@
 # Generate .htaccess (using Python ConfigParser)
 
+### Product Setup
+
+```bash
+./Install
+```
+
 ### Config Syntax
 doc_root uses Python's ConfigParser to load and parse .cfg files, into a python dictionary object. The basic format of the file is:
 
