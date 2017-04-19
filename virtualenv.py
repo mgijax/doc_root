@@ -24,7 +24,7 @@ from distutils.util import strtobool
 import struct
 import subprocess
 
-if sys.version_info < (2, 5):
+if sys.version_info < (2, 4):
     print('ERROR: %s' % sys.exc_info()[1])
     print('ERROR: this script requires Python 2.5 or greater.')
     sys.exit(101)
