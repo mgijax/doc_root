@@ -130,7 +130,10 @@ def custom_urls():
             if parser.has_option(sec, "conditions"):
                 conditions = parser.get(sec, "conditions")
                 conditions = ast.literal_eval(conditions)
-                for key in conditions:
+		keys = conditions.keys()
+		keys.sort()
+		keys.reverse()
+		for key in keys:
                    writeline("RewriteCond " + key + "\t\t" + conditions[key] + "\t\t[NC]")
 
             if parser.has_option(sec, "flags"):
