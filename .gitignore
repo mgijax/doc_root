@@ -1,4 +1,6 @@
 .htaccess
+pub1.htaccess
+pub2.htaccess
 *.pyc
 *.swp
 virtenv

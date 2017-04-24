@@ -14,12 +14,12 @@ if len(sys.argv) > 2:
     filename = sys.argv[2]
 
 parser = ConfigParser(interpolation=ExtendedInterpolation())
-print "Generating " + filename + " from template.cfg"
+print "Generating www/" + filename + " from template.cfg"
 parser.read('template.cfg')
 
 if len(sys.argv) > 1:
     if os.path.isfile(sys.argv[1] + ".cfg"):
-        print "Applying config values from: " + sys.argv[1] + ".cfg to " + filename
+        print "Applying config values from: " + sys.argv[1] + ".cfg to www/" + filename
         parser.read(sys.argv[1] + ".cfg")
     else:
         print "Couldn't find " + sys.argv[1] + ".cfg" + " config file"
@@ -142,7 +142,7 @@ def custom_urls():
                 writeline("RewriteRule " + sec + "\t\t" + url + " [P,L]")
             writeline("")
 
-out = open(filename, 'w')
+out = open("www/" + filename, 'w')
 header()
 mgi_homeurls()
 menu_urls()
