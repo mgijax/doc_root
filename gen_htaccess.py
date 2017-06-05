@@ -50,7 +50,7 @@ def blocked_ips():
     if len(blocked_ip_list) > 0:
         ips = blocked_ip_list.split(',')
         writeline("# --- BLOCKED USERS & BOTS")
-        writeline("order allow, deny")
+        writeline("order allow,deny")
         for ip in ips:
             writeline("deny from " + ip)
         writeline("allow from all")
