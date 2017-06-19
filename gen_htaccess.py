@@ -77,8 +77,9 @@ def generate_bots(use_bots, url, match, path):
     if use_bots and parser.has_option("options", "bots"):
         writeline("")
         bots = parser.get("options", "bots").split(",")
-        for bot in bots:
+        for bot in bots[:-1]:
             writeline("RewriteCond %{HTTP_USER_AGENT} \"" + bot + "\"\t\t\t[NC,OR]")
+        writeline("RewriteCond %{HTTP_USER_AGENT} \"" + bots[-1] + "\"\t\t\t[NC]")
 
         writeline("RewriteRule ^" + match + "(.*)\t\t" + url + "/" + path + "/$1 [P,L]")
         writeline("RewriteCond %{HTTP_REFERER} =\"-\"")
