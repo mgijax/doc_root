@@ -1,3 +1,10 @@
-python virtualenv.py -p python2.7 virtenv
-source virtenv/bin/activate
-pip install configparser
+#!/bin/sh
+
+source ./Configuration
+
+# setup virtual environment
+virtualenv -p $PYTHON .
+source bin/activate
+
+# subsequent installs
+pip install -r requirements.txt
