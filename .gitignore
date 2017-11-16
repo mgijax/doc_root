@@ -1,7 +1,13 @@
 .htaccess
 pub1.htaccess
 pub2.htaccess
+Configuration
 *.pyc
 *.swp
+.Python
 virtenv
+bin
+include
+lib
+pip-selfcheck.json
 *~
