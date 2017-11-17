@@ -1,4 +1,4 @@
-#!virtenv/bin/python
+#!./bin/python
 
 import sys
 import ast
