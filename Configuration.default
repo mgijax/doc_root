@@ -13,7 +13,7 @@ fi
 # We need a 2.7 python executable with zlib and ssl
 PYTHON_HOME=/opt/python
 export PYTHON_HOME
-PYTHON=$PYTHON_HOME/bin/python
+PYTHON=/usr/local/bin/python
 export PYTHON
 
 
