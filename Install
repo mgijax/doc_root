@@ -2,8 +2,9 @@
 
 source ./Configuration
 
-# setup virtual environment
-virtualenv -p $PYTHON .
+# setup virtual environment - using full path to virtualenv because
+# multiple version of python may be installed
+/opt/python/bin/virtualenv -p $PYTHON .
 source bin/activate
 
 # subsequent installs
