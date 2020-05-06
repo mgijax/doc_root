@@ -145,7 +145,7 @@ def custom_urls():
 
 out = open("www/" + filename, 'w')
 header()
-mgi_homeurls()
+#mgi_homeurls()
 menu_urls()
 fewi_urls()
 searchtool_urls()
