@@ -86,14 +86,6 @@ def generate_bots(use_bots, url, match, path):
         writeline("RewriteCond %{HTTP_USER_AGENT} =\"-\"")
         writeline("RewriteRule ^" + match + "(.*)\t\t" + url + "/" + path + "/$1 [P,L]")
 
-def mgi_homeurls():
-    if parser.has_option("mgi_home_urls", "paths"):
-        writeline("# --- Default URL's for MGI Home pages")
-        homepages_url = parser.get("urls", "homepages_url")
-        for path in parser.get("mgi_home_urls", "paths").split(","):
-            writeline("RewriteRule ^" + path + "\t\t" + homepages_url + "/" + path + " [P,L]")
-        writeline("")
-
 def menu_urls():
     if parser.has_option("menu_urls", "paths"):
         writeline("# --- Default URL's for MGI Home menu pages")
@@ -145,7 +137,6 @@ def custom_urls():
 
 out = open("www/" + filename, 'w')
 header()
-#mgi_homeurls()
 menu_urls()
 fewi_urls()
 searchtool_urls()
