@@ -113,12 +113,26 @@ def fewi_urls():
             writeline("RewriteRule ^" + path + "(.*)\t\t" + fewi_url + "/" + path + "/$1 [P,L]")
         writeline("")
 
+def batch_url():
+    path = parser.get("batch", "path")
+    use_separate_batch = parser.get("batch", "use_separate_batch")
+    if use_separate_batch == "true":
+        url = parser.get("urls", "fewi_batch_url")
+        fewi_bot_url = parser.get("urls", "fewi_bot_url")
+        generate_bots(use_bots_selected("batch"), fewi_bot_url, "batch", path)
+        writeline("RewriteRule ^batch(.*)\t\t" + url + "/" + path + "/$1 [P,L]")
+    else:
+        url = parser.get("urls", "fewi_url")
+        writeline("RewriteRule ^batch(.*)\t\t" + url + "/" + path + "/$1 [P,L]")
+    writeline("")
+
 def searchtool_urls():
     path = parser.get("searchtool", "path")
     url = parser.get("urls", "search_tool_url")
     search_tool_bot_url = parser.get("urls", "search_tool_bot_url")
     generate_bots(use_bots_selected("searchtool"), search_tool_bot_url, "searchtool", path)
     writeline("RewriteRule ^searchtool(.*)\t\t" + url + "/" + path + "/$1 [P,L]")
+    writeline("")
 
 def custom_urls():
     writeline("# --- Custom rules not defined anywhere else")
@@ -148,6 +162,7 @@ header()
 mgi_homeurls()
 menu_urls()
 fewi_urls()
+batch_url()
 searchtool_urls()
 custom_urls()
 out.close()
