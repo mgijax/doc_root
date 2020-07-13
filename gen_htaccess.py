@@ -6,7 +6,7 @@ import os
 from configparser import ConfigParser, ExtendedInterpolation
 
 if len(sys.argv) == 1:
-    print "Usage: " + sys.argv[0] + " [host.cfg] [out.htaccess]"
+    print("Usage: " + sys.argv[0] + " [host.cfg] [out.htaccess]")
     sys.exit()
 
 filename = ".htaccess"
@@ -14,15 +14,15 @@ if len(sys.argv) > 2:
     filename = sys.argv[2]
 
 parser = ConfigParser(interpolation=ExtendedInterpolation())
-print "Generating www/" + filename + " from template.cfg"
+print("Generating www/" + filename + " from template.cfg")
 parser.read('template.cfg')
 
 if len(sys.argv) > 1:
     if os.path.isfile(sys.argv[1] + ".cfg"):
-        print "Applying config values from: " + sys.argv[1] + ".cfg to www/" + filename
+        print("Applying config values from: " + sys.argv[1] + ".cfg to www/" + filename)
         parser.read(sys.argv[1] + ".cfg")
     else:
-        print "Couldn't find " + sys.argv[1] + ".cfg" + " config file"
+        print("Couldn't find " + sys.argv[1] + ".cfg" + " config file")
 
 
 def use_bots_selected(section):
@@ -145,10 +145,10 @@ def custom_urls():
             if parser.has_option(sec, "conditions"):
                 conditions = parser.get(sec, "conditions")
                 conditions = ast.literal_eval(conditions)
-		keys = conditions.keys()
-		keys.sort()
-		keys.reverse()
-		for key in keys:
+                keys = list(conditions.keys())
+                keys.sort()
+                keys.reverse()
+                for key in keys:
                    writeline("RewriteCond " + key + "\t\t" + conditions[key] + "\t\t[NC]")
 
             if parser.has_option(sec, "flags"):
