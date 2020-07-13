@@ -6,7 +6,7 @@ import os
 from configparser import ConfigParser, ExtendedInterpolation
 
 if len(sys.argv) == 1:
-    print("Usage: " + sys.argv[0] + " [host.cfg] [out.htaccess]")
+    print "Usage: " + sys.argv[0] + " [host.cfg] [out.htaccess]"
     sys.exit()
 
 filename = ".htaccess"
@@ -14,15 +14,15 @@ if len(sys.argv) > 2:
     filename = sys.argv[2]
 
 parser = ConfigParser(interpolation=ExtendedInterpolation())
-print("Generating www/" + filename + " from template.cfg")
+print "Generating www/" + filename + " from template.cfg"
 parser.read('template.cfg')
 
 if len(sys.argv) > 1:
     if os.path.isfile(sys.argv[1] + ".cfg"):
-        print("Applying config values from: " + sys.argv[1] + ".cfg to www/" + filename)
+        print "Applying config values from: " + sys.argv[1] + ".cfg to www/" + filename
         parser.read(sys.argv[1] + ".cfg")
     else:
-        print("Couldn't find " + sys.argv[1] + ".cfg" + " config file")
+        print "Couldn't find " + sys.argv[1] + ".cfg" + " config file"
 
 
 def use_bots_selected(section):
@@ -113,12 +113,26 @@ def fewi_urls():
             writeline("RewriteRule ^" + path + "(.*)\t\t" + fewi_url + "/" + path + "/$1 [P,L]")
         writeline("")
 
+def batch_url():
+    path = parser.get("batch", "path")
+    use_separate_batch = parser.get("batch", "use_separate_batch")
+    if use_separate_batch == "true":
+        url = parser.get("urls", "fewi_batch_url")
+        fewi_bot_url = parser.get("urls", "fewi_bot_url")
+        generate_bots(use_bots_selected("batch"), fewi_bot_url, "batch", path)
+        writeline("RewriteRule ^batch(.*)\t\t" + url + "/" + path + "/$1 [P,L]")
+    else:
+        url = parser.get("urls", "fewi_url")
+        writeline("RewriteRule ^batch(.*)\t\t" + url + "/" + path + "/$1 [P,L]")
+    writeline("")
+
 def searchtool_urls():
     path = parser.get("searchtool", "path")
     url = parser.get("urls", "search_tool_url")
     search_tool_bot_url = parser.get("urls", "search_tool_bot_url")
     generate_bots(use_bots_selected("searchtool"), search_tool_bot_url, "searchtool", path)
     writeline("RewriteRule ^searchtool(.*)\t\t" + url + "/" + path + "/$1 [P,L]")
+    writeline("")
 
 def custom_urls():
     writeline("# --- Custom rules not defined anywhere else")
@@ -131,7 +145,7 @@ def custom_urls():
             if parser.has_option(sec, "conditions"):
                 conditions = parser.get(sec, "conditions")
                 conditions = ast.literal_eval(conditions)
-                keys = list(conditions.keys())
+                keys = conditions.keys()
                 keys.sort()
                 keys.reverse()
                 for key in keys:
@@ -148,6 +162,7 @@ header()
 mgi_homeurls()
 menu_urls()
 fewi_urls()
+batch_url()
 searchtool_urls()
 custom_urls()
 out.close()
