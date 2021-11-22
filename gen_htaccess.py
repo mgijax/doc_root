@@ -126,14 +126,6 @@ def batch_url():
         writeline("RewriteRule ^batch(.*)\t\t" + url + "/" + path + "/$1 [P,L]")
     writeline("")
 
-def searchtool_urls():
-    path = parser.get("searchtool", "path")
-    url = parser.get("urls", "search_tool_url")
-    search_tool_bot_url = parser.get("urls", "search_tool_bot_url")
-    generate_bots(use_bots_selected("searchtool"), search_tool_bot_url, "searchtool", path)
-    writeline("RewriteRule ^searchtool(.*)\t\t" + url + "/" + path + "/$1 [P,L]")
-    writeline("")
-
 def custom_urls():
     writeline("# --- Custom rules not defined anywhere else")
     for sec in parser.sections():
@@ -163,6 +155,5 @@ mgi_homeurls()
 menu_urls()
 fewi_urls()
 batch_url()
-searchtool_urls()
 custom_urls()
 out.close()
