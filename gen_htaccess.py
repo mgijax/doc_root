@@ -40,8 +40,6 @@ def header():
     writeline("")
     if parser.has_option("options", "blocked_ips"):
         blocked_ips()
-    if parser.has_option("options", "show_redirect"):
-        default_public_redirect()
     if parser.has_option("options", "show_errordoc"):
         error_doc()
 
@@ -54,15 +52,6 @@ def blocked_ips():
         for ip in ips:
             writeline("deny from " + ip)
         writeline("allow from all")
-        writeline("")
-
-def default_public_redirect():
-    redirect = parser.get("options", "show_redirect")
-    if redirect == "true" or redirect == "True":
-        www_host = parser.get("hosts", "www_host")
-        writeline("# --- REDIRECT Non host urls to Host urls")
-        writeline("RewriteCond %{HTTP_HOST} !^" + www_host + "$ [NC]")
-        writeline("RewriteRule ^(.*)$ http://" + www_host + "/$1 [R=301,L]")
         writeline("")
 
 def error_doc():
