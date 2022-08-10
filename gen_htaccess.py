@@ -102,18 +102,20 @@ def fewi_urls():
             writeline("RewriteRule ^" + path + "(.*)\t\t" + fewi_url + "/" + path + "/$1 [P,L]")
         writeline("")
 
-def batch_url():
-    path = parser.get("batch", "path")
-    use_separate_batch = parser.get("batch", "use_separate_batch")
-    if use_separate_batch == "true":
-        url = parser.get("urls", "fewi_batch_url")
-        fewi_bot_url = parser.get("urls", "fewi_bot_url")
-        generate_bots(use_bots_selected("batch"), fewi_bot_url, "batch", path)
-        writeline("RewriteRule ^batch(.*)\t\t" + url + "/" + path + "/$1 [P,L]")
-    else:
-        url = parser.get("urls", "fewi_url")
-        writeline("RewriteRule ^batch(.*)\t\t" + url + "/" + path + "/$1 [P,L]")
-    writeline("")
+def batch_urls():
+    if parser.has_option("batch", "paths"):
+        writeline("# --- Default URL's for FEWI batch pages")
+        use_separate_batch = parser.get("batch", "use_separate_batch")
+        for path in parser.get("batch", "paths").split(","):
+            if use_separate_batch == "true":
+                url = parser.get("urls", "fewi_batch_url")
+                fewi_bot_url = parser.get("urls", "fewi_bot_url")
+                generate_bots(use_bots_selected("batch"), fewi_bot_url, path, path)
+                writeline("RewriteRule ^" + path + "(.*)\t\t" + url + "/" + path + "/$1 [P,L]")
+            else:
+                url = parser.get("urls", "fewi_url")
+                writeline("RewriteRule ^" + path + "(.*)\t\t" + url + "/" + path + "/$1 [P,L]")
+        writeline("")
 
 def custom_urls():
     writeline("# --- Custom rules not defined anywhere else")
@@ -142,7 +144,7 @@ out = open("www/" + filename, 'w')
 header()
 mgi_homeurls()
 menu_urls()
+batch_urls()
 fewi_urls()
-batch_url()
 custom_urls()
 out.close()
