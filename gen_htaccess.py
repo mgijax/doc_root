@@ -39,6 +39,9 @@ def header():
     writeline("RewriteEngine On")
     writeline("")
     if parser.has_option("options", "blocked_ips"):
+        writeline("RewriteCond %{HTTPS}  !=on")
+        writeline("RewriteRule ^/?(.*) https://%{SERVER_NAME}/$1 [R,L]")
+        writeline("")
         blocked_ips()
     if parser.has_option("options", "show_errordoc"):
         error_doc()
