@@ -143,6 +143,16 @@ def custom_urls():
                 writeline("RewriteRule " + sec + "\t\t" + url + " [P,L]")
             writeline("")
 
+def creHeader():
+    creOut.write("# PLEASE DO NOT MODIFY THIS IS A GENERATED FILE!!!!" + "\n")
+    creOut.write("RewriteEngine On" + "\n")
+    creOut.write("" + "\n")
+#    if parser.has_option("fewi_urls", "paths"):
+    fewi_url = parser.get("urls", "fewi_url")
+    creOut.write("RewriteCond %{REQUEST_URI} !=/server-status [NC]" + "\n")
+    creOut.write("RewriteRule ^(.*)$\t\t" + fewi_url + "/recombinase/$1 [P,L]" + "\n")
+    creOut.write("" + "\n")
+
 out = open("www/" + filename, 'w')
 header()
 mgi_homeurls()
@@ -151,3 +161,7 @@ batch_urls()
 fewi_urls()
 custom_urls()
 out.close()
+
+creOut = open("cre/" + filename, 'w')
+creHeader()
+creOut.close()
