@@ -149,7 +149,7 @@ def creHtaccess():
     creOut.write("RewriteEngine On" + "\n")
     creOut.write("" + "\n")
     creOut.write("RewriteCond %{REQUEST_URI} !=/server-status [NC]" + "\n")
-    creOut.write("RewriteRule ^(.*)$\t\t" + fewi_url + "/home/recombinase/$1 [P,L]" + "\n")
+    creOut.write("RewriteRule ^(.*)$\t\t" + fewi_url + "/home/recombinase/ [P,L]" + "\n")
     creOut.write("" + "\n")
 
 out = open("www/" + filename, 'w')
