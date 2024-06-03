@@ -4,7 +4,7 @@ source ./Configuration
 
 # setup virtual environment - using full path to virtualenv because
 # multiple version of python may be installed
-/opt/python3.7/bin/python3 -m venv .
+/opt/python3.8/bin/python3 -m venv .
 source bin/activate
 
 # subsequent installs
