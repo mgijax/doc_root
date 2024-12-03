@@ -1,19 +1,9 @@
 #!/bin/sh
 
-# if MGICONFIG is not set, then set it
-# you can override MGICONFIG later, if need be
 if [ "${MGICONFIG}" = "" ]
 then
     MGICONFIG=/usr/local/mgi/live/mgiconfig
     export MGICONFIG
     source ${MGICONFIG}/master.config.sh
 fi
-
-# Set the python that we want to use in this virtual environment
-# We need a 2.7 python executable with zlib and ssl
-PYTHON_HOME=/opt/python
-export PYTHON_HOME
-PYTHON=$PYTHON_HOME/bin/python
-export PYTHON
-
 

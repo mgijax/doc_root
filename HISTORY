@@ -1,0 +1,10 @@
+TAG: doc_root-6-0-24-2
+DATE: 12/03/2024
+STAFF: lec
+CHANGES:
+wts2-1487/e4g-8y/Install: fixes for MGI_Install
+#        modified:   Configuration.default
+#        new file:   HISTORY
+#        modified:   Install
+#        modified:   gen_htaccess.py
+

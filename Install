@@ -2,10 +2,30 @@
 
 source ./Configuration
 
-# setup virtual environment - using full path to virtualenv because
-# multiple version of python may be installed
-/opt/python3.8/bin/python3 -m venv .
+# setup virtual environment - using full path to virtualenv
+$PYTHON -m venv .
 source bin/activate
 
 # subsequent installs
 pip install -r requirements.txt
+
+# generate the appropriate .htaccess
+if [ "`uname -n | cut -d'.' -f1`" == "bhmgipub01lt" ] 
+then
+	$PYTHON gen_htaccess.py test
+elif [ "`uname -n | cut -d'.' -f1`" == "bhmgipub01lp" ] 
+then
+	ACTIVE_PUB=/usr/local/mgi/jenkins_admin/bin/getActivePublic
+	export ACTIVE_PUB
+	if [ "${ACTIVE_PUB}" == "pub1" ]
+	then
+		$PYTHON gen_htaccess.py pub1
+	else
+		$PYTHON gen_htaccess.py pub2
+	fi
+
+#else 
+#	do this manually and chosse the proper htaccess database
+
+fi
+

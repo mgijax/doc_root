@@ -1,5 +1,3 @@
-#!./bin/python
-
 import sys
 import ast
 import os
