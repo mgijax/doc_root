@@ -15,7 +15,7 @@ then
 	$PYTHON gen_htaccess.py test
 elif [ "`uname -n | cut -d'.' -f1`" == "bhmgipub01lp" ] 
 then
-	ACTIVE_PUB=/usr/local/mgi/jenkins_admin/bin/getActivePublic
+	ACTIVE_PUB=`/usr/local/mgi/jenkins_admin/bin/getActivePublic`
 	export ACTIVE_PUB
 	if [ "${ACTIVE_PUB}" == "pub1" ]
 	then
