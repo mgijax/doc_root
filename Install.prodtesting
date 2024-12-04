@@ -10,10 +10,10 @@ source bin/activate
 pip install -r requirements.txt
 
 # generate the appropriate .htaccess
+#if [ "`uname -n | cut -d'.' -f1`" == "bhmgipub01lt" ] 
+#then
+#	$PYTHON gen_htaccess.py test
 if [ "`uname -n | cut -d'.' -f1`" == "bhmgipub01lt" ] 
-then
-	$PYTHON gen_htaccess.py test
-elif [ "`uname -n | cut -d'.' -f1`" == "bhmgipub01lp" ] 
 then
 	ACTIVE_PUB=`/usr/local/mgi/jenkins_admin/bin/getActivePublic`
 	echo 'ACTIVE_PUB', $ACTIVE_PUB
