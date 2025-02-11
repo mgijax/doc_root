@@ -36,24 +36,13 @@ def header():
     writeline("# PLEASE DO NOT MODIFY THIS IS A GENERATED FILE!!!!")
     writeline("RewriteEngine On")
     writeline("")
-    if parser.has_option("options", "blocked_ips"):
+    http_forward = parser.get("options", "http_forward")
+    if http_forward == "true" or http_forward == "True":
         writeline("RewriteCond %{HTTPS}  !=on")
         writeline("RewriteRule ^/?(.*) https://%{SERVER_NAME}/$1 [R,L]")
         writeline("")
-        blocked_ips()
     if parser.has_option("options", "show_errordoc"):
         error_doc()
-
-def blocked_ips():
-    blocked_ip_list = parser.get("options", "blocked_ips")
-    if len(blocked_ip_list) > 0:
-        ips = blocked_ip_list.split(',')
-        writeline("# --- BLOCKED USERS & BOTS")
-        writeline("order allow,deny")
-        for ip in ips:
-            writeline("deny from " + ip)
-        writeline("allow from all")
-        writeline("")
 
 def error_doc():
     redirect = parser.get("options", "show_errordoc")
